@@ -7,15 +7,16 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 /**
- * bean的生命周期，spring一启动就会执行
+ * bean的生命周期，spring一启动就会执行（容器启动）
  */
 @Component
-public class SpringContextHolder implements BeanNameAware,ApplicationContextAware, BeanFactoryAware {
+public class SpringContextHolder implements BeanNameAware,ApplicationContextAware, BeanFactoryAware, BeanPostProcessor {
 
     @Autowired
     private OrderService orderService;
@@ -26,7 +27,9 @@ public class SpringContextHolder implements BeanNameAware,ApplicationContextAwar
     private static BeanFactory beanFactory;
 
     private static ApplicationContext applicationContext;
-
+    /**
+     *  实例化 Bean（new对象）
+     */
     public SpringContextHolder() {
         System.out.println("生命周期第一步,构造函数");
     }
@@ -62,13 +65,32 @@ public class SpringContextHolder implements BeanNameAware,ApplicationContextAwar
         System.out.println("3. Aware：ApplicationContextAware，拿到 ApplicationContext");
     }
 
+
+    /**
+     *4.BeanPostProcessor 前置处理 详情见LogProcessor类
+     */
+/*    @Override
+    public Object postProcessBeforeInitialization(
+            Object bean,
+            String beanName) {
+
+        System.out.println(beanName + " 初始化前");
+
+        return bean;
+    }*/
+
+
     /** @PostConstruct 通常作用于
      * @Autowried 注入完成后，一些初始化操作
      */
     @PostConstruct
     public void init() {
-        orderService.OrderNumber();
+        System.out.println("初始化中....");
     }
+
+
+
+
 
     public static <T>  T getBean(Class<T> beanClass) {
         return applicationContext.getBean(beanClass);

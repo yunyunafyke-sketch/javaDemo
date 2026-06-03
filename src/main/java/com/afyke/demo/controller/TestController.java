@@ -3,6 +3,7 @@ package com.afyke.demo.controller;
 import com.afyke.demo.common.ApiResponse;
 import com.afyke.demo.config.SpringContextHolder;
 import com.afyke.demo.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -12,6 +13,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/test")
 public class TestController {
+    @Autowired
+    private UserService userService;
 
     @GetMapping
     public ApiResponse<Map<String, Object>> getTest(
@@ -55,6 +58,12 @@ public class TestController {
                 "method", "GET",
                 "serverTime", now()
         ));
+    }
+
+    @GetMapping("/testPostProcessAfterInitialization")
+    public ApiResponse<String> test() {
+        userService.doWork();
+        return ApiResponse.success("POST request success");
     }
 
 
