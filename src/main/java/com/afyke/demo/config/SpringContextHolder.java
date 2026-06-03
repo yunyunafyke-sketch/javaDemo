@@ -2,10 +2,12 @@ package com.afyke.demo.config;
 
 import com.afyke.demo.service.impl.OrderServiceImpl;
 import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.ApplicationContext;
@@ -16,7 +18,11 @@ import org.springframework.stereotype.Component;
  * bean的生命周期，spring一启动就会执行（容器启动）
  */
 @Component
-public class SpringContextHolder implements BeanNameAware,ApplicationContextAware, BeanFactoryAware, BeanPostProcessor {
+public class SpringContextHolder implements BeanNameAware,
+        ApplicationContextAware,
+        BeanFactoryAware,
+        BeanPostProcessor ,
+        DisposableBean {
 
     @Autowired
     private OrderServiceImpl orderServiceImpl;
@@ -85,11 +91,46 @@ public class SpringContextHolder implements BeanNameAware,ApplicationContextAwar
      */
     @PostConstruct
     public void init() {
-        System.out.println("初始化中....");
+        System.out.println("5.初始化中....");
     }
 
 
+    /**
+     * 6. init-method
+     */
+    public void customInit() {
+        System.out.println("6. init-method：自定义初始化方法");
+    }
 
+    /**
+     * 7. Bean 可正常使用
+     */
+    public void doSomething() {
+        System.out.println("7. Bean 正常使用：执行业务方法");
+    }
+
+    /**
+     * 9. @PreDestroy
+     */
+    @PreDestroy
+    public void preDestroy() {
+        System.out.println("9. @PreDestroy：容器关闭前执行");
+    }
+
+    /**
+     * DisposableBean.destroy()
+     */
+    @Override
+    public void destroy() {
+        System.out.println("9. DisposableBean.destroy：销毁 Bean");
+    }
+
+    /**
+     * 10. destroy-method
+     */
+    public void customDestroy() {
+        System.out.println("10. destroy-method：自定义销毁方法");
+    }
 
 
     public static <T>  T getBean(Class<T> beanClass) {
