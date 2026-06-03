@@ -15,7 +15,13 @@ public class LogEnhanceBeanPostProcessor implements BeanPostProcessor {
             throws BeansException {
 
         if (bean instanceof UserService) {
-
+            /**
+             * Proxy.newProxyInstance(
+             *     类加载器,
+             *     要代理的接口,
+             *     方法调用处理器
+             * )
+             */
             return Proxy.newProxyInstance(
                     bean.getClass().getClassLoader(),
                     bean.getClass().getInterfaces(),
