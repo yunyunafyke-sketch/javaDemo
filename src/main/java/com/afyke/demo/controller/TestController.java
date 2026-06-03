@@ -1,6 +1,8 @@
 package com.afyke.demo.controller;
 
 import com.afyke.demo.common.ApiResponse;
+import com.afyke.demo.config.SpringContextHolder;
+import com.afyke.demo.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -15,6 +17,7 @@ public class TestController {
     public ApiResponse<Map<String, Object>> getTest(
             @RequestParam(defaultValue = "axios") String name
     ) {
+
         return ApiResponse.success("GET request success", Map.of(
                 "name", name,
                 "method", "GET",
@@ -40,6 +43,20 @@ public class TestController {
                 "serverTime", now()
         ));
     }
+
+    @GetMapping("/test")
+    public ApiResponse<Map<String, Object>> getSpringMethod(
+            @RequestParam(defaultValue = "axios") String name
+    ) {
+        UserService bean = SpringContextHolder.getBean(UserService.class);
+        bean.doWork();
+        return ApiResponse.success("GET request success", Map.of(
+                "name", name,
+                "method", "GET",
+                "serverTime", now()
+        ));
+    }
+
 
     private String now() {
         return LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
