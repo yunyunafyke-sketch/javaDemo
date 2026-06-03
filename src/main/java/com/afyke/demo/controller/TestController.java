@@ -3,6 +3,7 @@ package com.afyke.demo.controller;
 import com.afyke.demo.common.ApiResponse;
 import com.afyke.demo.config.SpringContextHolder;
 import com.afyke.demo.service.UserService;
+import com.afyke.demo.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +15,7 @@ import java.util.Map;
 @RequestMapping("/test")
 public class TestController {
     @Autowired
-    private UserService userService;
+    private UserService userServiceImpl;
 
     @GetMapping
     public ApiResponse<Map<String, Object>> getTest(
@@ -51,7 +52,7 @@ public class TestController {
     public ApiResponse<Map<String, Object>> getSpringMethod(
             @RequestParam(defaultValue = "axios") String name
     ) {
-        UserService bean = SpringContextHolder.getBean(UserService.class);
+        UserServiceImpl bean = SpringContextHolder.getBean(UserServiceImpl.class);
         bean.doWork();
         return ApiResponse.success("GET request success", Map.of(
                 "name", name,
@@ -62,7 +63,7 @@ public class TestController {
 
     @GetMapping("/testPostProcessAfterInitialization")
     public ApiResponse<String> test() {
-        userService.doWork();
+        userServiceImpl.doWork();
         return ApiResponse.success("POST request success");
     }
 

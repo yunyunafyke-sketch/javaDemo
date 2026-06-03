@@ -1,6 +1,6 @@
 package com.afyke.demo.config;
 
-import com.afyke.demo.service.OrderService;
+import com.afyke.demo.service.impl.OrderServiceImpl;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 public class SpringContextHolder implements BeanNameAware,ApplicationContextAware, BeanFactoryAware, BeanPostProcessor {
 
     @Autowired
-    private OrderService orderService;
+    private OrderServiceImpl orderServiceImpl;
 
 
     private static String beanName;

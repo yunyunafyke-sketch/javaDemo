@@ -20,6 +20,10 @@ public class LogEnhanceBeanPostProcessor implements BeanPostProcessor {
                     bean.getClass().getClassLoader(),
                     bean.getClass().getInterfaces(),
                     (proxy, method, args) -> {
+                        if (method.getDeclaringClass() == Object.class) {
+                            return method.invoke(bean, args);
+                        }
+
                         System.out.println("方法执行前：" + method.getName());
 
                         Object result = method.invoke(bean, args);
