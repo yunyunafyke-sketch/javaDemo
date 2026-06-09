@@ -68,6 +68,13 @@ public class TestController {
     }
 
 
+    @PostMapping("/actions")
+    public ApiResponse<String> actions(@RequestBody TestRequest testRequest) {
+        userServiceImpl.doWork();
+        return ApiResponse.success(testRequest.username()+"Actions");
+    }
+
+
     private String now() {
         return LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
     }
