@@ -1,6 +1,6 @@
 package com.afyke.demo.config;
 
-import com.afyke.demo.service.UserService;
+import com.afyke.demo.service.OrderService;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.stereotype.Component;
@@ -14,7 +14,7 @@ public class LogEnhanceBeanPostProcessor implements BeanPostProcessor {
     public Object postProcessAfterInitialization(Object bean, String beanName)
             throws BeansException {
 
-        if (bean instanceof UserService) {
+        if (bean instanceof OrderService) {
             /**
              * Proxy.newProxyInstance(
              *     类加载器,
